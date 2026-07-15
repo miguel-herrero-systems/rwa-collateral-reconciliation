@@ -10,7 +10,8 @@ This repository is an experimental reference model. Its purpose is to make bound
 
 ## No financial decision
 
-- It does not calculate recognized collateral value, loan-to-value ratios, margin requirements, haircuts, liquidation thresholds, or credit eligibility.
+- It does not select or recommend recognized collateral value, loan-to-value ratios, margin requirements, haircuts, liquidation thresholds, or credit eligibility.
+- The synthetic-case validator recomputes a declared haircut solely as an internal consistency check. It does not determine whether that haircut or resulting collateral value is appropriate.
 - It does not recommend issuing, purchasing, selling, financing, or liquidating any token or asset.
 - It is not financial, investment, accounting, tax, or legal advice.
 
@@ -37,7 +38,7 @@ This repository is an experimental reference model. Its purpose is to make bound
 ## Security and assurance
 
 - The model has not undergone an independent security audit, legal review, accounting review, or professional valuation review.
-- JSON Schema can check structural constraints but cannot establish cross-record authorization, temporal ordering, professional competence, or economic correctness.
+- JSON Schema can check structural constraints but cannot establish cross-record authorization, temporal ordering, professional competence, or economic correctness. The narrow synthetic-case validator checks selected relationships and declared arithmetic in the bundled fixture only; it does not establish the truth or legitimacy of any input.
 - The state machine is a design aid and does not establish production safety.
 
 ## Relationship to other organizations

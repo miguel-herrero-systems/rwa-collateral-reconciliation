@@ -82,11 +82,18 @@ Commitments and pseudonymous identifiers still reveal metadata. Their publicatio
 | Condition → valuation → collateral model | In development | The public material here is an architectural reference, not an executed end-to-end system. |
 | State machine | Draft specification | It distinguishes review, dispute, revocation, submission, receipt, and staleness; it has not been exercised against a production ledger. |
 | Three JSON Schemas | Draft specification | They type the three boundaries but do not validate authorization, temporal ordering, signatures, or economic correctness. |
-| Validator, smart contracts, valuation method, privacy proofs, live ledger integration | Not implemented | No production behavior or security guarantee is claimed. |
+| Synthetic-case validator and tests | Executable reference check | They validate the bundled fixture's structure, selected cross-record relationships, temporal order, declared haircut arithmetic, and file-hash binding. They do not establish authorization, appraisal correctness, signature validity, or external-ledger truth. |
+| Smart contracts, valuation method, privacy proofs, live ledger integration | Not implemented | No production behavior or security guarantee is claimed. |
 
 ## Synthetic walkthrough
 
-[`examples/synthetic-case/`](examples/synthetic-case/) contains one fictional, non-production walkthrough showing how the three draft envelopes refer to one another. It is an explanatory fixture, not a validator, appraisal, cryptographic proof, or live-ledger demonstration.
+[`examples/synthetic-case/`](examples/synthetic-case/) contains one fictional, non-production walkthrough showing how the three draft envelopes refer to one another. A deliberately narrow validator and four tests make selected relationships executable; they remain a reference check, not an appraisal, cryptographic proof, or live-ledger demonstration.
+
+```bash
+python3 -m pip install -r requirements-dev.txt
+python3 scripts/validate_synthetic_case.py
+python3 -m unittest discover -s tests -v
+```
 
 ## Related public context
 

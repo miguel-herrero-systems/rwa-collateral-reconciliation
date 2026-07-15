@@ -37,6 +37,18 @@ To verify the last relationship on macOS or Linux:
 shasum -a 256 valuation-attestation.json
 ```
 
+## Run the reference checks
+
+From the repository root:
+
+```bash
+python3 -m pip install -r requirements-dev.txt
+python3 scripts/validate_synthetic_case.py
+python3 -m unittest discover -s tests -v
+```
+
+The validator checks this fixture's schemas, identities, evidence references, timestamp order, attestation freshness, declared haircut arithmetic, exact file hash, and privacy flags. The tests cover the valid path plus a changed hash, an expired attestation, and inconsistent haircut arithmetic. This is intentionally not a general-purpose validator.
+
 ## What this does not demonstrate
 
 - collection or truthfulness of raw evidence;
