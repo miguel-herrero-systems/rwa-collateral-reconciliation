@@ -1,0 +1,36 @@
+{
+  "schema_version": "0.1",
+  "update_id": "update:synthetic:seville:001:2026-07-16",
+  "asset": {
+    "asset_id": "asset:synthetic:seville:001",
+    "unit_id": "unit:synthetic:001-a"
+  },
+  "valuation_reference": {
+    "attestation_id": "attestation:synthetic:seville:001:2026-07-16",
+    "attestation_status": "accepted",
+    "attestation_hash_sha256": "07d493320a03a9f3e75e93f8c4ab27b8e1983c2a45f8b9f0ea7fcfd28edd043b"
+  },
+  "policy_decision": {
+    "decision_id": "decision:synthetic:seville:001:2026-07-16",
+    "policy_id": "policy:synthetic:collateral:001",
+    "policy_version": "1.0",
+    "decision": "reduce_recognized_value",
+    "recognized_collateral_value": {
+      "amount": "180000.00",
+      "currency": "EUR"
+    },
+    "haircut_bps": 2500,
+    "decided_at": "2026-07-16T11:00:00Z"
+  },
+  "ledger_update": {
+    "target_ledger": "ledger:synthetic:collateral:001",
+    "idempotency_key": "idem:synthetic:seville:001:2026-07-16",
+    "status": "confirmed",
+    "submitted_at": "2026-07-16T11:05:00Z",
+    "receipt_id": "receipt:synthetic:seville:001:2026-07-16:001",
+    "confirmed_at": "2026-07-16T11:06:00Z"
+  },
+  "privacy": {
+    "raw_evidence_included": false
+  }
+}

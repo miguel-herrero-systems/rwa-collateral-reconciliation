@@ -84,6 +84,10 @@ Commitments and pseudonymous identifiers still reveal metadata. Their publicatio
 | Three JSON Schemas | Draft specification | They type the three boundaries but do not validate authorization, temporal ordering, signatures, or economic correctness. |
 | Validator, smart contracts, valuation method, privacy proofs, live ledger integration | Not implemented | No production behavior or security guarantee is claimed. |
 
+## Synthetic walkthrough
+
+[`examples/synthetic-case/`](examples/synthetic-case/) contains one fictional, non-production walkthrough showing how the three draft envelopes refer to one another. It is an explanatory fixture, not a validator, appraisal, cryptographic proof, or live-ledger demonstration.
+
 ## Related public context
 
 EthSystems' public [Private RWA Tokenization](https://github.com/ethsystems/map/blob/master/use-cases/private-rwa-tokenization.md) use case identifies private pricing and valuation with full history, selective disclosure, attestations, auditability, and issuer solvency as institutional requirements. This independent repository explores one adjacent operational boundary: condition evidence → valuation attestation → collateral state.
