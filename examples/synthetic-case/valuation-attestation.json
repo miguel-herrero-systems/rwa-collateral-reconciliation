@@ -1,0 +1,44 @@
+{
+  "schema_version": "0.1",
+  "attestation_id": "attestation:synthetic:seville:001:2026-07-16",
+  "asset": {
+    "asset_id": "asset:synthetic:seville:001",
+    "unit_id": "unit:synthetic:001-a",
+    "asset_class": "real_estate",
+    "jurisdiction": "ES-AN"
+  },
+  "evidence": {
+    "evidence_bundle_id": "evidence:synthetic:seville:001:2026-07-15",
+    "root_hash_sha256": "8d3f5c1a7b9e2d4f6a8c0e1b3d5f709182a4c6e8f0b2d4a6c8e0f1a3b5d7e9c1",
+    "observed_at": "2026-07-15T08:40:00Z",
+    "direct_capture_count": 6,
+    "manual_upload_count": 1
+  },
+  "valuation": {
+    "amount": "240000.00",
+    "currency": "EUR",
+    "basis": "market_value",
+    "valuation_at": "2026-07-16T10:00:00Z",
+    "condition_effect": "confirmed_impairment"
+  },
+  "issuer": {
+    "issuer_id": "issuer:synthetic:valuer:001",
+    "role": "authorized_valuer",
+    "credential_reference": "synthetic:credential:not-valid"
+  },
+  "lifecycle": {
+    "status": "accepted",
+    "issued_at": "2026-07-16T10:30:00Z",
+    "expires_at": "2026-10-16T10:30:00Z"
+  },
+  "proof": {
+    "method": "other",
+    "created_at": "2026-07-16T10:30:00Z",
+    "verification_method": "synthetic:verification-method:not-valid",
+    "proof_value": "SYNTHETIC-NOT-A-VALID-CRYPTOGRAPHIC-PROOF"
+  },
+  "privacy": {
+    "disclosure": "authorized_summary",
+    "raw_evidence_public": false
+  }
+}

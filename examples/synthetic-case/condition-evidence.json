@@ -1,0 +1,36 @@
+{
+  "schema_version": "0.1",
+  "evidence_bundle_id": "evidence:synthetic:seville:001:2026-07-15",
+  "asset": {
+    "asset_id": "asset:synthetic:seville:001",
+    "unit_id": "unit:synthetic:001-a",
+    "asset_class": "real_estate",
+    "jurisdiction": "ES-AN"
+  },
+  "capture": {
+    "started_at": "2026-07-15T08:00:00Z",
+    "closed_at": "2026-07-15T09:00:00Z",
+    "observed_at": "2026-07-15T08:40:00Z",
+    "direct_capture_count": 6,
+    "manual_upload_count": 1,
+    "capture_closed_reason": "manual_close"
+  },
+  "condition_summary": {
+    "observation_count": 3,
+    "maximum_recorded_severity": 3,
+    "condition_signal": "potential_deterioration"
+  },
+  "integrity": {
+    "hash_algorithm": "sha-256",
+    "root_hash_sha256": "8d3f5c1a7b9e2d4f6a8c0e1b3d5f709182a4c6e8f0b2d4a6c8e0f1a3b5d7e9c1",
+    "manifest_hash_sha256": "1c9e7d5b3a1f0e2c4a6b8d0f2e4c6a8b0d1f3e5c7a9b2d4f6e8c0a1b3d5f7e9c"
+  },
+  "lifecycle": {
+    "status": "closed",
+    "created_at": "2026-07-15T09:05:00Z"
+  },
+  "privacy": {
+    "disclosure": "authorized_summary",
+    "raw_evidence_public": false
+  }
+}
