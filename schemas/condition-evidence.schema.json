@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/miguel-herrero-systems/rwa-collateral-reconciliation/schemas/condition-evidence.schema.json",
+  "title": "RWA Condition Evidence Commitment",
+  "description": "Experimental envelope binding a real-estate asset and capture window to an immutable commitment over private condition evidence. It does not establish value or impairment.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "evidence_bundle_id",
+    "asset",
+    "capture",
+    "condition_summary",
+    "integrity",
+    "lifecycle",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "evidence_bundle_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asset_id", "asset_class", "jurisdiction"],
+      "properties": {
+        "asset_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "unit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "asset_class": {
+          "const": "real_estate"
+        },
+        "jurisdiction": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 32
+        }
+      }
+    },
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["started_at", "closed_at", "observed_at", "direct_capture_count", "manual_upload_count"],
+      "properties": {
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "closed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Effective observation time referenced by a downstream valuation attestation."
+        },
+        "direct_capture_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "manual_upload_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "capture_closed_reason": {
+          "type": "string",
+          "enum": ["manual_close", "inactivity_timeout", "review_cutoff", "other"]
+        }
+      }
+    },
+    "condition_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observation_count", "condition_signal"],
+      "properties": {
+        "observation_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maximum_recorded_severity": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 5
+        },
+        "condition_signal": {
+          "type": "string",
+          "enum": [
+            "inconclusive",
+            "no_material_change_observed",
+            "potential_deterioration",
+            "confirmed_damage",
+            "improvement_observed"
+          ],
+          "description": "Operational observation only; it is not a valuation or impairment determination."
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hash_algorithm", "root_hash_sha256", "manifest_hash_sha256"],
+      "properties": {
+        "hash_algorithm": {
+          "const": "sha-256"
+        },
+        "root_hash_sha256": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        },
+        "manifest_hash_sha256": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "created_at"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["draft", "closed", "rejected", "superseded"]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "supersedes_evidence_bundle_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["disclosure", "raw_evidence_public"],
+      "properties": {
+        "disclosure": {
+          "type": "string",
+          "enum": ["commitment_only", "authorized_summary", "full_private_record"]
+        },
+        "raw_evidence_public": {
+          "const": false
+        }
+      }
+    }
+  }
+}

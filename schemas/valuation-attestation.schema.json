@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/miguel-herrero-systems/rwa-collateral-reconciliation/schemas/valuation-attestation.schema.json",
+  "title": "RWA Valuation Attestation",
+  "description": "Experimental envelope binding a real-estate asset, private evidence commitment, versioned valuation, issuer, lifecycle, and disclosure posture. Cross-field temporal ordering and authorization require application-level validation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "attestation_id",
+    "asset",
+    "evidence",
+    "valuation",
+    "issuer",
+    "lifecycle",
+    "proof",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "attestation_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asset_id", "asset_class", "jurisdiction"],
+      "properties": {
+        "asset_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "unit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "asset_class": {
+          "const": "real_estate"
+        },
+        "jurisdiction": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 32,
+          "description": "Deployment-defined legal or operational jurisdiction code."
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_bundle_id", "root_hash_sha256", "observed_at"],
+      "properties": {
+        "evidence_bundle_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "root_hash_sha256": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "direct_capture_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "manual_upload_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "valuation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["amount", "currency", "basis", "valuation_at", "condition_effect"],
+      "properties": {
+        "amount": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+          "description": "Decimal string; interpretation requires the accompanying currency and basis."
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 alpha-3 currency code."
+        },
+        "basis": {
+          "type": "string",
+          "enum": [
+            "market_value",
+            "mortgage_lending_value",
+            "replacement_cost",
+            "other"
+          ]
+        },
+        "valuation_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "condition_effect": {
+          "type": "string",
+          "enum": [
+            "not_assessed",
+            "none",
+            "potential_impairment",
+            "confirmed_impairment",
+            "improvement"
+          ]
+        }
+      }
+    },
+    "issuer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["issuer_id", "role"],
+      "properties": {
+        "issuer_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "role": {
+          "type": "string",
+          "enum": ["authorized_valuer", "auditor", "other"]
+        },
+        "credential_reference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "issued_at", "expires_at"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["draft", "accepted", "rejected", "revoked", "expired", "superseded"]
+        },
+        "issued_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "supersedes_attestation_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "revocation_reference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    },
+    "proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "created_at", "verification_method", "proof_value"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["eip712", "w3c_vc", "eas", "other"]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "verification_method": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "proof_value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["disclosure", "raw_evidence_public"],
+      "properties": {
+        "disclosure": {
+          "type": "string",
+          "enum": ["commitment_only", "authorized_summary", "full_private_record"]
+        },
+        "raw_evidence_public": {
+          "const": false
+        }
+      }
+    }
+  }
+}

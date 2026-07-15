@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/miguel-herrero-systems/rwa-collateral-reconciliation/schemas/collateral-update.schema.json",
+  "title": "RWA Collateral Update",
+  "description": "Experimental envelope separating an accepted valuation reference, a collateral-policy decision, and the lifecycle of a durable ledger update.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "update_id",
+    "asset",
+    "valuation_reference",
+    "policy_decision",
+    "ledger_update",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "update_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asset_id"],
+      "properties": {
+        "asset_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "unit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "valuation_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attestation_id", "attestation_status", "attestation_hash_sha256"],
+      "properties": {
+        "attestation_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "attestation_status": {
+          "const": "accepted"
+        },
+        "attestation_hash_sha256": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        }
+      }
+    },
+    "policy_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_id",
+        "policy_id",
+        "policy_version",
+        "decision",
+        "recognized_collateral_value",
+        "decided_at"
+      ],
+      "properties": {
+        "decision_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "policy_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "policy_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "no_change",
+            "increase_recognized_value",
+            "reduce_recognized_value",
+            "suspend_collateral_eligibility",
+            "manual_review_required"
+          ]
+        },
+        "recognized_collateral_value": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["amount", "currency"],
+          "properties": {
+            "amount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+            },
+            "currency": {
+              "type": "string",
+              "pattern": "^[A-Z]{3}$"
+            }
+          }
+        },
+        "haircut_bps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "decided_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "ledger_update": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_ledger", "idempotency_key", "status"],
+      "properties": {
+        "target_ledger": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "status": {
+          "type": "string",
+          "enum": ["prepared", "submitted", "confirmed", "failed", "reverted"]
+        },
+        "submitted_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "receipt_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "confirmed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reversal_reference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {"const": "confirmed"}
+            },
+            "required": ["status"]
+          },
+          "then": {
+            "required": ["submitted_at", "receipt_id", "confirmed_at"]
+          }
+        }
+      ]
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw_evidence_included"],
+      "properties": {
+        "raw_evidence_included": {
+          "const": false
+        }
+      }
+    }
+  }
+}
